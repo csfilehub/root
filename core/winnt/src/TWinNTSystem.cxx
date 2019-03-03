@@ -4281,6 +4281,14 @@ const char *TWinNTSystem::GetLibraries(const char *regexp, const char *options,
             // Change .dll into .lib and remove the
             // path info if it not accessible.
             s = libs(index, end);
+            s.ToLower();
+//            s.ReplaceAll(".DLL",".dll");
+            printf("test %s\n", (const char *)s);
+            if (s.Contains("system32") || s.Contains("vcruntime") || s.Contains("msvcp")) {
+               start += end+1;
+               continue;
+            }
+            printf("used %s\n",(const char*)s);
             if (s.Index(user_dll) != kNPOS) {
                s.ReplaceAll(".dll",".lib");
                if ( GetPathInfo( s, sbuf ) != 0 ) {
